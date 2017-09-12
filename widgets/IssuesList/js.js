@@ -28,25 +28,24 @@ var IssuesList = (function () {
                 $("#IssuesList").remove();
                 _destroy();
             })
-        })
 
-
-
-        $("#replyCom").on('click', function () {
-            var num = $("#replyCom").data().cur_num
-
-            var data = {
-                "body": $("#com_content").val()
-            }
-
-            postComments(num, data).then(function (res) {
-                $("#com_md").modal('hide')
-
-            }, function (fail) {
-                console.log(fail)
-                $("#com_md").modal('hide')
-                var tg = $("#replyCom").data().cardDiv
-                generateCom(fail, tg.find('.commentsList'))
+            $("#replyCom").on('click', function () {
+                var num = $("#replyCom").data().cur_num
+    
+                var data = {
+                    "body": $("#com_content").val()
+                }
+    
+                postComments(num, data).then(function (res) {
+                    $("#com_md").modal('hide')
+    
+                }, function (fail) {
+                    console.log(fail)
+                    $("#com_md").modal('hide')
+                    var tg = $("#replyCom").data().cardDiv
+                    generateCom(fail, tg.find('.commentsList'))
+                    tg.find('.nocommentreply').remove()
+                })
             })
         })
     }
@@ -132,7 +131,7 @@ var IssuesList = (function () {
                             generateCom(res[i], $elm.find('.commentsList'))
                         }
                     }else{
-                        $elm.find('.commentsList').after('<div class="text-center"><h4><i class="fa fa-info-circle" aria-hidden="true"></i> 目前暫無回應</h4></div>')
+                        $elm.find('.commentsList').after('<div class="text-center nocommentreply"><h4><i class="fa fa-info-circle" aria-hidden="true"></i> 目前暫無回應</h4></div>')
                     }
                 }, function (fail) {
                     console.log(fail)
@@ -167,7 +166,7 @@ var IssuesList = (function () {
 
         var dt = new Date(data.updated_at)
         $card.find('.panel-footer').text(dt.toLocaleString())
-
+        console.log(target)
         target.after($card)
     }
 

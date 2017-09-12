@@ -30,7 +30,8 @@ var ProjectCards = (function () {
                 // more then 6 data..
             }else if(idx=len){
                 $('#cloud').jQCloud(words, {
-                    colors:['#FA9513','#FFC06E','#FA9513','#4F8AAB','#83CEF7'],
+                    // colors:['#FA9513','#FFC06E','#FA9513','#4F8AAB','#83CEF7'],
+                    colors:['#fff'],
                     height: 300,
                     delay:10,
                     autoResize:true
