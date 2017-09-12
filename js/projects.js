@@ -51,7 +51,7 @@ $(document).ready(function () {
             sessionStorage.setItem("cryp", cryp)
             $("#doLogin>.lo_lo").remove()
             $("#doLogin").removeClass('disabled')
-
+            
             getUsr().then(function (res) {
                 sessionStorage.setItem("user", res.login)
                 sessionStorage.setItem("uid", res.id)
@@ -59,6 +59,7 @@ $(document).ready(function () {
                 $("#logoutBtn").show()
                 $("#logoutBtn>.u_name").text(res.login)
                 $("#login_md").modal('hide')
+                location.reload();
             }, function (fail) {
                 console.log(fail)
                 $("#doLogin>.lo_lo").remove()

@@ -8,7 +8,7 @@ var IssuesList = (function () {
         $('html, body').animate({
             scrollTop: $('#section_header').offset().top - 100
         }, 'slow')
-        setContent(data)
+        // setContent(data)
         repo = data.name
         getIssues(repo).then(function (res) {
             $(".loading").remove();
@@ -77,7 +77,7 @@ var IssuesList = (function () {
         var des = data.description || data.name
         $card.find('.panel-title').text(des)
         var md = data.md || data.des
-        convertMd(md)
+        // convertMd(md)
         $card.find('.panel-body').html('<div>'+md+'</div>')
     }
 
@@ -176,8 +176,15 @@ var IssuesList = (function () {
     }
 
     function postComments(number, data) {
-        console.log(data)
-        return callApi('/repos/twoss-io/' + repo + '/issues/' + number + '/comments', 'POST', data, true)
+        var token = sessionStorage.getItem('token')
+        if(token && token!=''){ 
+            return callApi('/repos/twoss-io/' + repo + '/issues/' + number + '/comments', 'POST', data, true)
+        }else{
+            $("#login_md").modal('show')
+            $("#login_md").find(".text-danger").remove();
+            $("#login_md").find(".modal-title").append(' <span class="text-danger">* 請登入以獲得完整功能</span>')
+            return false
+        }
     }
 
     function getIssues(repo) {

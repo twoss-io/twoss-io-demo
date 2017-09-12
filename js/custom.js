@@ -25,6 +25,11 @@ var callApi = function(url, method, data) {
             if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 // console.log(xhr.response)
                 resolve(JSON.parse(xhr.response))
+            }else if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 403){
+                // console.log(403)
+                $("#login_md").modal('show')
+                $("#login_md").find(".text-danger").remove();
+                $("#login_md").find(".modal-title").append(' <span class="text-danger">* 請登入以獲得完整功能</span>')
             }else{
                 reject(JSON.parse(xhr.response));
             }
