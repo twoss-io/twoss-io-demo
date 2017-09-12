@@ -1,0 +1,151 @@
+<!-- CSS -->
+<style>
+    .loading i {
+        font-size: 48px;
+        color: #f99200;
+    }
+
+    .service-box {
+        background: #fff;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        box-shadow:4px 4px 12px -2px rgba(20%,20%,40%,0.5);
+        /* height: 300px; */
+    }
+
+    .service-box>span {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: #f99200;
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+        filter: alpha(opacity=0);
+        opacity: 0;
+        -webkit-transition: opacity 250ms linear;
+        transition: opacity 250ms linear;
+        z-index: 999;
+    }
+
+    .service-box:hover>span {
+        cursor: pointer;
+        opacity: 0.6;
+    }
+
+    .service-box>span>i {
+        position: absolute;
+        top: 45%;
+        left: 45%;
+    }
+
+    .box_title {
+        color: #555;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+    .box_des {
+        height: 200px;
+        padding: 15px;
+        overflow: auto;
+    }
+
+    .box_end {
+        height: 75px;
+    }
+
+    .box_footer {
+        bottom: 0px;
+        position: absolute;
+        width: 100%;
+        height: 50px;
+        background: #eee;
+        border: solid 1px #eee;
+        padding: 10px;
+    }
+
+    .bdl {
+        border-left: solid #f99200
+    }
+
+    .bdt {
+        border-top: solid #f99200
+    }
+
+    .cmr {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .circle {
+        display: inline-block;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        border: 1px solid #eee;
+        padding: 5px;
+        background: #fff;
+    }
+
+    .inner {
+        background-image: url(//placeimg.com/320/180/nature);
+        background-size: cover;
+        background-position: center center;
+        height: 100%;
+        border-radius: 50%;
+    }
+
+    .hr_w {
+        border-top: 1px solid #eee;
+        margin: 10px;
+    }
+</style>
+<!-- HTML -->
+<div>
+    <div class="loading text-center">
+        <i class="fa fa-compass fa-spin"></i>
+    </div>
+    <div class="row" id="mainRow">
+        <div class="col-md-4 margin20 chain_div chain_template" hidden>
+            <div class="service-box wow animated fadeInDown cmr row bdt">
+                <span><i class="fa fa-arrow-circle-o-right fa-4x"></i></span>
+                <div class="col-lg-12 text-right">
+                    <div class="">
+                        <span>最近更新於</span>&nbsp;
+                        <i class="fa fa-clock-o text-primary"></i>&nbsp;
+                        <span class="box_date">2017-08-04</span>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <hr class="hr_w">
+                </div>
+                <div class="col-lg-4 text-center">
+                    <div class='circle'>
+                        <div class='inner'>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="text-center">
+                        <a href="#">
+                            <!-- <u> -->
+                            <h4 class="box_title">DB-PostgreSQL-stable</h4>
+                            <!-- </u> -->
+                        </a>
+                        <!-- <span class="full_name">twoss-io/DB-PostgreSQL-stable</span> -->
+                    </div>
+                </div>
+                <div class="col-lg-12 box_ft">
+                    <div class="box_des">Here goes some description</div>
+                </div>
+                <div class="col-lg-12 box_footer text-right">
+                    <span>共</span>&nbsp;
+                    <span class="label label-info box_issues" data-count="0">0</span>
+                    <span><b> 則議題</b></span> &nbsp;
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

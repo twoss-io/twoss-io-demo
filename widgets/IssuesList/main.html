@@ -1,0 +1,141 @@
+<!-- CSS -->
+<style>
+    .panel_div {
+        border-left: solid #f99200 3px;
+        margin-bottom: 10px !important;
+        box-shadow: 4px 4px 12px -2px rgba(20%, 20%, 40%, 0.5);
+    }
+
+    .com_div {
+        margin-bottom: 10px !important;
+    }
+
+    .panelContent, #noData{
+        box-shadow: 4px 4px 12px -2px rgba(20%, 20%, 40%, 0.5);
+    }
+</style>
+<div id="IssuesList" class="row">
+    <div class="text-center">
+        <button id="btn_back" class="btn btn-default" style="font-size:18px;margin-bottom:10px"><i class="fa fa-arrow-circle-o-left"></i> | 回前頁</button>
+    </div>
+    
+    <div class="col-md-12">
+        <div class="loading text-center">
+            <i class="fa fa-compass fa-spin"></i>
+        </div>
+        <div class="panel panel-default animated fadeInLeft" id="noData" hidden>
+            <div class="panel-heading">
+                <h3 class="panel-title">&nbsp;</h3>
+            </div>
+            <div class="panel-body text-center">
+                <h3><i class="fa fa-info-circle" aria-hidden="true"></i> 目前暫無議題討論</h3>
+            </div>
+        </div>
+        <div id="issuesRow">
+            <div class="panel-group" id="issues_accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default panel_div panel_template wow animated fadeInDown" hidden>
+                    <div class="panel-heading" role="tab" id="headingOne">
+                        <h4 class="panel-title row">
+                            <span class="col-lg-6">
+                                <a data-toggle="collapse" data-parent="#issues_accordion" href="#collapseOne" aria-expanded="false" aria-controls="" style="font-weight:600;">
+                                </a> 
+                                <span>| #<span class="isu_num"></span> Opened by
+                            <u><a class="isu_user" href="#" target="_blank"></a></u>
+                            </span>
+                            </span>
+                            <span class="col-lg-6 text-right">
+                                <span><b> 回應數</b></span>
+                            <span class="label label-primary box_comments" data-count="0">0</span> |&nbsp;
+                            <span><i class="fa fa-clock-o text-primary"></i>&nbsp;<span class="updt_at"></span></span>
+                            </span>
+                        </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="panel-body">
+                            <div class="issues_body">
+
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-lg-2">
+                                    <u><a role="button" data-toggle="collapse" href="#comments" aria-expanded="true" aria-controls="comments">
+                                        回應( <span class="comments_count">0</span> )
+                                    </a></u>
+                                </div>
+                                <div class="col-lg-8"></div>
+                                <div class="col-lg-2"><button class="btn btn-success btn-block reBtn"><i class="fa fa-reply"></i> 新增回應</button></div>
+                                <div class="col-lg-12">
+                                    <div class="com collapse show" id="comments">
+                                        <div class="commentsList" style="margin:20px;">
+                                            <div class="com_loading text-center col-lg-12">
+                                                <h2><i class="fa fa-compass fa-spin" style="color:#f99200 !important;"></i></h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-10"></div>
+                                <div class="col-lg-2"><button class="btn btn-success btn-block reBtn"><i class="fa fa-reply"></i> 新增回應</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="col-md-4">
+        <div class="panel panel-default panelContent animated fadeInRight">
+            <div class="panel-heading">
+                <h3 class="panel-title">Panel title</h3>
+            </div>
+            <div class="panel-body">
+                <div class="loadingMd text-center">
+                    <i class="fa fa-compass fa-spin"></i>
+                </div>
+            </div>
+        </div>
+    </div> -->
+</div>
+
+<div class="panel panel-success com_div com_template wow animated fadeInDown" hidden>
+    <div class="panel-heading">
+        <h3 class="panel-title">Panel title</h3>
+    </div>
+    <div class="panel-body">
+        Panel content
+    </div>
+    <div class="panel-footer text-right">
+        Panel content
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="com_md">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">回覆</h4>
+            </div>
+            <div class="modal-body row">
+                <div class="col-lg-12 row">
+                    <div class="col-lg-2"></div>
+                    <form class="col-lg-8">
+                        <div class="form-group">
+                            <label for="com_content">Comments</label>
+                            <textarea class="form-control" rows="3" id="com_content" placeholder="..."></textarea>
+                        </div>
+                    </form>
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-12 text-center text-danger" id="com_info">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="replyComDis">取消</button>
+                <button type="button" class="btn btn-primary" id="replyCom">回覆</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

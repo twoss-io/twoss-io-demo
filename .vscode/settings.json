@@ -1,0 +1,23 @@
+// 將您的設定放入此檔案中以覆寫預設值和使用者設定。
+{
+    "deploy": {
+        "showPopupOnSuccess": false,
+        "packages": [{
+            "name": "twoss-io.github.io",
+            "description": "twoss-io.github.io",
+            "files": [
+                "**/*.js",
+                "**/*.html",
+                "**/*.htm",
+                "**/*.css"
+            ],
+            "deployOnSave": true
+        }],
+        "targets": [{
+            "type": "local",
+            "name": "My local folder",
+            "description": "A local folder",
+            "dir": "../twoss/public"
+        }]
+    }
+}
