@@ -8,7 +8,7 @@ var IssuesList = (function () {
         $('html, body').animate({
             scrollTop: $('#section_header').offset().top - 100
         }, 'slow')
-        // setContent(data)
+        setContent(data)
         repo = data.name
         getIssues(repo).then(function (res) {
             $(".loading").remove();
@@ -76,7 +76,7 @@ var IssuesList = (function () {
         $card.find('.panel-title').text(des)
         var md = data.md || data.des
         // convertMd(md)
-        $card.find('.panel-body').html('<div>'+md+'</div>')
+        $card.find('.panel-body').html('<pre>'+md+'</pre>')
     }
 
     function generateCard(data) {

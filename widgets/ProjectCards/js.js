@@ -61,7 +61,7 @@ var ProjectCards = (function () {
 
         var topics = data.topics
         for (var i = 0; i < topics.length; i++) {
-                        
+            $card.find(".topics").append('<span class="label label-success">'+topics[i]+'</span>&nbsp;')
         }
 
         $card.appendTo("#mainRow")
