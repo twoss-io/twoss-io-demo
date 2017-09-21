@@ -8,7 +8,7 @@ var loadFlag = true;
 sessionStorage.setItem("now_pages", "index");
 
 //ES6 Promise api
-var callApi = function(url, method, data) {
+var callApi = function(url, method, data, bAuth) {
     data = data || "";
     url = "https://api.github.com"+url;
     return new Promise(function (resolve, reject) {
@@ -19,17 +19,28 @@ var callApi = function(url, method, data) {
         if(token && token!=''){ 
             xhr.setRequestHeader("Authorization", "token "+token);
         }
+        var checkAuth = bAuth ? bAuth : sessionStorage.getItem('cryp')
+        if(checkAuth){
+            xhr.setRequestHeader("Authorization", "Basic " + checkAuth);
+        }
         xhr.send(JSON.stringify(data))
         //Call a function when the state changes.
         xhr.onload = function () {
-            if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+            if (xhr.readyState == XMLHttpRequest.DONE && (xhr.status == 200 ||xhr.status == 202)) {
                 // console.log(xhr.response)
                 resolve(JSON.parse(xhr.response))
             }else if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 403){
-                // console.log(403)
+                if(token && token!=''){
+                    $.notify('查詢次數過多，請稍後再試',{position:'top center'})
+                }else{
+                    $("#login_md").modal('show')
+                    $.notify('請登入以獲得完整功能',{position:'top center'})
+                }
+                reject(JSON.parse(xhr.response));
+            }else if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 422){
                 $("#login_md").modal('show')
-                $("#login_md").find(".text-danger").remove();
-                $("#login_md").find(".modal-title").append(' <span class="text-danger">* 請登入以獲得完整功能</span>')
+                $.notify('請登入以獲得完整功能',{position:'top center'})
+                reject(JSON.parse(xhr.response));
             }else{
                 reject(JSON.parse(xhr.response));
             }
@@ -42,6 +53,7 @@ var callApi = function(url, method, data) {
         };
     });
 }
+
 
 // transparent header on scroll 
 $(window).scroll(function () {
@@ -79,7 +91,6 @@ Smooth Scroll To Anchor
 $(function () {
     $('.navbar a:not(".dropdown-toggle"), .navbar.btn:not("#loginBtn")').bind('click', function (event) {
         var $anchor = $(this);
-        console.log($anchor)
         $('html, body').stop().animate({
             scrollTop: $($anchor.attr('href')).offset().top - 50
         }, 1500, 'easeInOutExpo');

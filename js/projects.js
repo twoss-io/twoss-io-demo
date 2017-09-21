@@ -26,14 +26,8 @@ $(document).ready(function () {
     })
 
     $("#logoutBtn").unbind().bind('click', function () {
-        loginApi(sessionStorage.getItem("cryp"), "DELETE", "/" + sessionStorage.getItem("tid")).then(function (res) {
-            sessionStorage.clear();
-            window.location = '/index.html'
-        }, function (fail) {
-            console.log(fail);
-            // sessionStorage.clear();
-            // window.location = '/index.html'
-        })
+        sessionStorage.clear();
+        location.reload();
     })
 
     $("#doLogin").unbind().bind('click', function () {
@@ -43,47 +37,36 @@ $(document).ready(function () {
         };
         var cryp = btoa(ld.acc + ":" + ld.psw)
         $("#doLogin").append(' <i class="fa fa-compass fa-spin lo_lo"></i>')
-        $("#doLogin").addClass('disabled')
-        loginApi(cryp, "POST", "").then(function (res) {
+        $("#doLogin").attr('disabled', true)
+
+        getUsr(cryp).then(function (res) {
             sessionStorage.setItem("isLogin", true)
-            sessionStorage.setItem("token", res.token)
-            sessionStorage.setItem("tid", res.id)
             sessionStorage.setItem("cryp", cryp)
-            $("#doLogin>.lo_lo").remove()
-            $("#doLogin").removeClass('disabled')
-            
-            getUsr().then(function (res) {
-                sessionStorage.setItem("user", res.login)
-                sessionStorage.setItem("uid", res.id)
-                $("#loginBtn").hide()
-                $("#logoutBtn").show()
-                $("#logoutBtn>.u_name").text(res.login)
-                $("#login_md").modal('hide')
-                location.reload();
-            }, function (fail) {
-                console.log(fail)
-                $("#doLogin>.lo_lo").remove()
-                $("#doLogin").removeClass('disabled')
-                $("#log_info").html('');
-                $("#log_info").append("<i class='fa fa-exclamation-circle'></i> 取得用戶資訊失敗，請重新操作")
-            });
+            sessionStorage.setItem("user", res.login)
+            sessionStorage.setItem("uid", res.id)
+            $("#loginBtn").hide()
+            $("#logoutBtn").show()
+            $("#logoutBtn>.u_name").text(res.login)
+            $("#login_md").modal('hide')
+            location.reload();
         }, function (fail) {
+            console.log(fail)
             $("#doLogin>.lo_lo").remove()
             $("#doLogin").removeClass('disabled')
             $("#log_info").html('');
-            $("#log_info").append("<i class='fa fa-exclamation-circle'></i> 登入錯誤，請重新操作")
+            $("#log_info").append("<i class='fa fa-exclamation-circle'></i> 取得用戶資訊失敗，請重新操作")
         });
     })
 });
 
 
 
-var getUsr = function () {
-    return callApi('/user', 'GET', {}, true)
+var getUsr = function (cryp) {
+    return callApi('/user', 'GET', {}, cryp)
 }
 
-var logoutApi = function () {
-    return callApi('/authorizations/' + sessionStorage.getItem("tid"), 'DELETE', {})
+var logoutApi = function (cryp) {
+    return callApi('/authorizations/' + sessionStorage.getItem("tid"), 'DELETE', {}, cryp)
 }
 
 var loginApi = function (data, method, id) {

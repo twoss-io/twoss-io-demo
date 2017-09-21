@@ -38,13 +38,12 @@ var IssuesList = (function () {
     
                 postComments(num, data).then(function (res) {
                     $("#com_md").modal('hide')
-    
-                }, function (fail) {
-                    console.log(fail)
-                    $("#com_md").modal('hide')
                     var tg = $("#replyCom").data().cardDiv
-                    generateCom(fail, tg.find('.commentsList'))
+                    generateCom(res, tg.find('.commentsList'))
                     tg.find('.nocommentreply').remove()
+                }, function (fail) {
+                    $("#com_md").modal('hide')
+                    $.notify('發送錯誤，請重新嘗試',{position:'top center'})
                 })
             })
         })
@@ -110,10 +109,17 @@ var IssuesList = (function () {
         setCommentEvt($card, data.id)
 
         $card.find(".reBtn").unbind().bind('click', function () {
-            $("#com_md").modal('show')
-            $("#replyCom").data('cur_num', $card.data('isuData').number)
-            $("#replyCom").data('cardDiv', $card)
-            console.log($card)
+            var isLogin = sessionStorage.getItem('isLogin')
+            if(isLogin && isLogin!=""){
+                $("#com_md").modal('show')
+                $("#replyCom").data('cur_num', $card.data('isuData').number)
+                $("#replyCom").data('cardDiv', $card)
+            }else{
+                $("#login_md").modal('show')
+                $("#login_md").find(".text-danger").remove();
+                $("#login_md").find(".modal-title").append(' <span class="text-danger">* 請登入以獲得完整功能</span>')
+                return false
+            }
         })
     }
 
@@ -125,7 +131,6 @@ var IssuesList = (function () {
                 getComments(isu_num).then(function (res) {
                     $elm.data('isClick', true)
                     $elm.find(".com_loading").remove();
-                    console.log(res)
                     if (res.length > 0) {
                         for (var i = res.length-1; i > -1; i--) {
                             generateCom(res[i], $elm.find('.commentsList'))
@@ -146,14 +151,11 @@ var IssuesList = (function () {
     }
 
     function timeoutCom(_data, idx, len, target) {
-        console.log(target)
         var $tg = target
         setTimeout(function () {
             if (idx < len) {
-                console.log($tg)
                 generateCom(_data[idx], $tg)
                 idx++
-                console.log(idx)
                 timeoutCom(_data, idx, len)
             }
         }, 100);
@@ -166,7 +168,6 @@ var IssuesList = (function () {
 
         var dt = new Date(data.updated_at)
         $card.find('.panel-footer').text(dt.toLocaleString())
-        console.log(target)
         target.after($card)
     }
 
@@ -175,15 +176,8 @@ var IssuesList = (function () {
     }
 
     function postComments(number, data) {
-        var token = sessionStorage.getItem('token')
-        if(token && token!=''){ 
-            return callApi('/repos/twoss-io/' + repo + '/issues/' + number + '/comments', 'POST', data, true)
-        }else{
-            $("#login_md").modal('show')
-            $("#login_md").find(".text-danger").remove();
-            $("#login_md").find(".modal-title").append(' <span class="text-danger">* 請登入以獲得完整功能</span>')
-            return false
-        }
+        return callApi('/repos/twoss-io/' + repo + '/issues/' + number + '/comments', 'POST', data)
+        
     }
 
     function getIssues(repo) {

@@ -2,7 +2,7 @@ var ProjectCards = (function () {
     /*	public Global variable or function */
     var pub = {};
     /*	private Widget variable	*/
-    var words =[];
+    var words = [];
 
 
     function _init() {
@@ -28,13 +28,13 @@ var ProjectCards = (function () {
                 idx++
                 timeoutdraw(_data, idx, len)
                 // more then 6 data..
-            }else if(idx=len){
+            } else if (idx = len) {
                 $('#cloud').jQCloud(words, {
                     // colors:['#FA9513','#FFC06E','#FA9513','#4F8AAB','#83CEF7'],
-                    colors:['#fff'],
+                    colors: ['#fff'],
                     height: 300,
-                    delay:10,
-                    autoResize:true
+                    delay: 10,
+                    autoResize: true
                 });
                 $('#cloud').addClass('bounceIn')
             }
@@ -43,7 +43,13 @@ var ProjectCards = (function () {
 
     function generateCard(data) {
         var $card = $(".chain_template").clone().removeClass("chain_template").removeAttr("hidden")
-        // $card.find(".inner").css('background-image', 'url(//placeimg.com/320/180/nature)')
+        getTitleImg(data.name).then(function (res) {
+            $card.find(".inner").css('background-image', 'url(' + res.html_url + '?raw=true)')
+            // $card.find(".inner").css('background-image', 'url("data:image/png;base64,'+res.content+'")')
+        }, function (fail) {
+            $card.find(".inner").css('background-image', 'url(//placeimg.com/320/180/nature)')
+            console.log(fail)
+        })
         var des = data.description || data.name
         $card.find(".box_title").text(des)
         $card.find(".box_title").parents("a:first").attr("href", data.html_url).attr("target", "_blank")
@@ -53,11 +59,10 @@ var ProjectCards = (function () {
 
         $card.appendTo("#mainRow")
         $card.data('repData', data)
-        getMd(data.name).then(function(res){
+        getMd(data.name).then(function (res) {
             bindEvt($card);
-            $card.data('md', res.content)
-            console.log(res.content)
-        }, function(fail){
+            $card.data('md', res)
+        }, function (fail) {
             bindEvt($card);
             console.log(fail)
         })
@@ -95,7 +100,6 @@ var ProjectCards = (function () {
     function bindEvt($elm) {
         $elm.unbind().bind('click', function () {
             var data = $elm.data("repData")
-            console.log($elm.data("md"))
             data['md'] = $elm.data("md")
             switch (sessionStorage.getItem("now_pages")) {
                 case 'index':
@@ -132,7 +136,22 @@ var ProjectCards = (function () {
     }
 
     function getMd(repo) {
-        return callApi('/repos/twoss-io/'+repo+'/readme', 'GET', {})
+        return new Promise(function (resolve, reject) {
+            $.ajax({
+                method: "GET",
+                url: "https://raw.githubusercontent.com/twoss-io/"+repo+"/master/README.md",
+                success: function (res) {
+                    resolve(res)
+                },
+                error: function (error) {
+                    reject(error)
+                }
+            })
+        })
+    }
+
+    function getTitleImg(repo) {
+        return callApi('/repos/twoss-io/' + repo + '/contents/title_img.png', 'GET', {})
     }
 
     function _destroy() {
