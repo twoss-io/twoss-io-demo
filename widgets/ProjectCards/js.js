@@ -11,6 +11,8 @@ var ProjectCards = (function () {
             $(".loading").remove();
             drawPic(res)
             words.length = 0
+        }, function(fail){
+            console.log(fail)
         })
     }
 

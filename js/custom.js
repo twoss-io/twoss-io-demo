@@ -15,6 +15,7 @@ var callApi = function(url, method, data, bAuth) {
         var xhr = new XMLHttpRequest();
         xhr.open(method, url, true);
         xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+        xhr.setRequestHeader("Accept", "application/vnd.github.mercy-preview+json");
         var token = sessionStorage.getItem('token')
         if(token && token!=''){ 
             xhr.setRequestHeader("Authorization", "token "+token);
@@ -42,6 +43,7 @@ var callApi = function(url, method, data, bAuth) {
                 $.notify('請登入以獲得完整功能',{position:'top center'})
                 reject(JSON.parse(xhr.response));
             }else{
+                console.log(xhr.response)
                 reject(JSON.parse(xhr.response));
             }
         }
