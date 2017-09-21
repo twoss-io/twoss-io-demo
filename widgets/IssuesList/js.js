@@ -76,7 +76,7 @@ var IssuesList = (function () {
         $card.find('.panel-title').text(des)
         var md = data.md || data.des
         // convertMd(md)
-        $card.find('.panel-body').html('<pre>'+md+'</pre>')
+        $card.find('.panel-body').html(md)
     }
 
     function generateCard(data) {

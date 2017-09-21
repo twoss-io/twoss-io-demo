@@ -69,7 +69,6 @@ var ProjectCards = (function () {
         getMd(data.name).then(function (res) {
             bindEvt($card);
             $card.data('md', res)
-            // $card.append(res)
         }, function (fail) {
             bindEvt($card);
             console.log(fail)
@@ -144,10 +143,27 @@ var ProjectCards = (function () {
     }
 
     function getMd(repo) {
+        // return new Promise(function (resolve, reject) {
+        //     $.ajax({
+        //         method: "GET",
+        //         url: "https://raw.githubusercontent.com/twoss-io/"+repo+"/master/README.md",
+        //         success: function (res) {
+        //             resolve(res)
+        //         },
+        //         error: function (error) {
+        //             reject(error)
+        //         }
+        //     })
+        // })
         return new Promise(function (resolve, reject) {
             $.ajax({
                 method: "GET",
-                url: "https://raw.githubusercontent.com/twoss-io/"+repo+"/master/README.md",
+                url: 'https://api.github.com/repos/twoss-io/'+repo+'/readme',
+                headers: {
+                    "Content-Type":"application/json; charset=utf-8",
+                    "Accept":"application/vnd.github.VERSION.html",
+                    "Authorization": "Basic " + sessionStorage.getItem('cryp')
+                },
                 success: function (res) {
                     resolve(res)
                 },
@@ -156,6 +172,7 @@ var ProjectCards = (function () {
                 }
             })
         })
+        // return callApi('/repos/twoss-io/'+repo+'/readme', 'GET', {}, false, true)
     }
 
     function getTitleImg(repo) {
