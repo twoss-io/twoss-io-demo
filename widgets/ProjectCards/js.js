@@ -59,11 +59,17 @@ var ProjectCards = (function () {
         var dt = new Date(data.updated_at)
         $card.find(".box_date").text(dt.toLocaleDateString());
 
+        var topics = data.topics
+        for (var i = 0; i < topics.length; i++) {
+                        
+        }
+
         $card.appendTo("#mainRow")
         $card.data('repData', data)
         getMd(data.name).then(function (res) {
             bindEvt($card);
             $card.data('md', res)
+            // $card.append(res)
         }, function (fail) {
             bindEvt($card);
             console.log(fail)
