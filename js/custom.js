@@ -43,7 +43,6 @@ var callApi = function(url, method, data, bAuth) {
                 $.notify('請登入以獲得完整功能',{position:'top center'})
                 reject(JSON.parse(xhr.response));
             }else{
-                console.log(xhr.response)
                 reject(JSON.parse(xhr.response));
             }
         }
