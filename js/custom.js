@@ -8,41 +8,47 @@ var loadFlag = true;
 sessionStorage.setItem("now_pages", "index");
 
 //ES6 Promise api
-var callApi = function(url, method, data, bAuth) {
+var callApi = function (url, method, data, bAuth) {
     data = data || "";
-    url = "https://api.github.com"+url;
+    url = "https://api.github.com" + url;
     return new Promise(function (resolve, reject) {
         var xhr = new XMLHttpRequest();
         xhr.open(method, url, true);
         xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
         xhr.setRequestHeader("Accept", "application/vnd.github.mercy-preview+json");
         var token = sessionStorage.getItem('token')
-        if(token && token!=''){ 
-            xhr.setRequestHeader("Authorization", "token "+token);
+        if (token && token != '') {
+            xhr.setRequestHeader("Authorization", "token " + token);
         }
         var checkAuth = bAuth ? bAuth : sessionStorage.getItem('cryp')
-        if(checkAuth){
+        if (checkAuth) {
             xhr.setRequestHeader("Authorization", "Basic " + checkAuth);
         }
         xhr.send(JSON.stringify(data))
         //Call a function when the state changes.
         xhr.onload = function () {
-            if (xhr.readyState == XMLHttpRequest.DONE && (xhr.status == 200 ||xhr.status == 202)) {
+            if (xhr.readyState == XMLHttpRequest.DONE && (xhr.status == 200 || xhr.status == 201 || xhr.status == 202)) {
                 // console.log(xhr.response)
                 resolve(JSON.parse(xhr.response))
-            }else if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 403){
-                if(token && token!=''){
-                    $.notify('查詢次數過多，請稍後再試',{position:'top center'})
-                }else{
+            } else if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 403) {
+                if (token && token != '') {
+                    $.notify('查詢次數過多，請稍後再試', {
+                        position: 'top center'
+                    })
+                } else {
                     $("#login_md").modal('show')
-                    $.notify('請登入以獲得完整功能',{position:'top center'})
+                    $.notify('請登入以獲得完整功能', {
+                        position: 'top center'
+                    })
                 }
                 reject(JSON.parse(xhr.response));
-            }else if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 422){
+            } else if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 422) {
                 $("#login_md").modal('show')
-                $.notify('請登入以獲得完整功能',{position:'top center'})
+                $.notify('請登入以獲得完整功能', {
+                    position: 'top center'
+                })
                 reject(JSON.parse(xhr.response));
-            }else{
+            } else {
                 reject(JSON.parse(xhr.response));
             }
         }
