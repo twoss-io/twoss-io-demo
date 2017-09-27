@@ -2,9 +2,11 @@ var IssuesList = (function () {
     /*	public Global variable or function */
     var pub = {};
     var repo = '';
+    var issuesAry = []
     /*	private Widget variable	*/
 
     function _init(data) {
+        issuesAry.length = 0;
         $('html, body').animate({
             scrollTop: $('#section_header').offset().top - 100
         }, 'slow')
@@ -13,7 +15,8 @@ var IssuesList = (function () {
         getIssues(repo).then(function (res) {
             $(".loading").remove();
             if (res.length > 0) {
-                drawPic(res)
+                issuesAry = res
+                drawPic(issuesAry)
             }else{
                 noData()
             }
@@ -46,6 +49,36 @@ var IssuesList = (function () {
                     $.notify('發送錯誤，請重新嘗試',{position:'top center'})
                 })
             })
+
+            $("#addIssues").on('click', function () {
+                var isLogin = sessionStorage.getItem('isLogin')
+                if(isLogin && isLogin!=""){
+                    $("#add_md").modal('show')
+                }else{
+                    $("#login_md").modal('show')
+                    $("#login_md").find(".text-danger").remove();
+                    $("#login_md").find(".modal-title").append(' <span class="text-danger">* 請登入以獲得完整功能</span>')
+                    return false
+                }
+            })
+
+            $("#addIssue").on('click', function (){
+                var title = $("#Issue_title").val()
+                var body = $("#Issue_content").val()
+                var data = {
+                    title : $("#Issue_title").val(),
+                    body : $("#Issue_content").val()
+                }
+
+                postIssues(repo, data).then(function (res) {
+                    issuesAry.unshift(res)
+                    drawPic(issuesAry)
+                    $("#add_md").modal('hide')
+                }, function (fail) {
+                    $("#add_md").modal('hide')
+                    $.notify('發送錯誤，請重新嘗試',{position:'top center'})
+                })
+            });
         })
     }
 
@@ -179,9 +212,14 @@ var IssuesList = (function () {
         return callApi('/repos/twoss-io/' + repo + '/issues/' + number + '/comments', 'POST', data)
         
     }
+    
 
     function getIssues(repo) {
         return callApi('/repos/twoss-io/' + repo + '/issues', 'GET', {})
+    }
+
+    function postIssues(repo, data) {
+        return callApi('/repos/twoss-io/' + repo + '/issues', 'POST', data)
     }
 
     function convertMd(md){

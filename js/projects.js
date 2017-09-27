@@ -52,7 +52,7 @@ $(document).ready(function () {
         }, function (fail) {
             console.log(fail)
             $("#doLogin>.lo_lo").remove()
-            $("#doLogin").removeClass('disabled')
+            $("#doLogin").attr('disabled', false)
             $("#log_info").html('');
             $("#log_info").append("<i class='fa fa-exclamation-circle'></i> 取得用戶資訊失敗，請重新操作")
         });

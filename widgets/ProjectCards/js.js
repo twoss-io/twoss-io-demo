@@ -6,13 +6,15 @@ var ProjectCards = (function () {
 
 
     function _init() {
-        var gr = getRepo();
-        gr.then(function (res) {
-            $(".loading").remove();
-            drawPic(res)
-            words.length = 0
-        }, function(fail){
-            console.log(fail)
+        $(document).ready(function(){
+            var gr = getRepo();
+            gr.then(function (res) {
+                $(".loading").remove();
+                drawPic(res)
+                words.length = 0
+            }, function(fail){
+                console.log(fail)
+            })
         })
     }
 
@@ -26,9 +28,14 @@ var ProjectCards = (function () {
     function timeoutdraw(_data, idx, len) {
         setTimeout(function () {
             if (idx < len) {
-                generateCard(_data[idx])
-                idx++
-                timeoutdraw(_data, idx, len)
+                if(_data[idx].name=='issues-testing' || _data[idx].name=='twoss-io-videocms-demo' || _data[idx].name=='Main'){
+                    idx++
+                    timeoutdraw(_data, idx, len)
+                }else{
+                    generateCard(_data[idx])
+                    idx++
+                    timeoutdraw(_data, idx, len)
+                }
                 // more then 6 data..
             } else if (idx = len) {
                 $('#cloud').jQCloud(words, {
@@ -65,13 +72,13 @@ var ProjectCards = (function () {
         }
 
         $card.appendTo("#mainRow")
-        $card.data('repData', data)
+        var send = data
         getMd(data.name).then(function (res) {
-            bindEvt($card);
-            $card.data('md', res)
+            send['md'] = res
+            bindEvt($card, send); 
         }, function (fail) {
-            bindEvt($card);
-            console.log(fail)
+            send['md'] = '<h4><i class="fa fa-info-circle" aria-hidden="true"></i> 目前暫無內容</h4>'
+            bindEvt($card, send);
         })
 
         $card.find(".box_issues").attr("data-count", data.open_issues_count)
@@ -104,20 +111,11 @@ var ProjectCards = (function () {
         });
     }
 
-    function bindEvt($elm) {
+    function bindEvt($elm, data) {
         $elm.unbind().bind('click', function () {
-            var data = $elm.data("repData")
-            data['md'] = $elm.data("md")
-            switch (sessionStorage.getItem("now_pages")) {
-                case 'index':
-
-                    break;
-                case 'projects':
-                    $("#section_header .center-heading").text(data.name + " 議題清單")
-                    $("#serviceProject").slideUp('slow')
-                    loadIssuesWidget(data);
-                    break;
-            }
+            $("#section_header .center-heading").text(data.name)
+            $("#serviceProject").slideUp('slow')
+            loadIssuesWidget(data);
         })
     }
 
@@ -135,7 +133,7 @@ var ProjectCards = (function () {
     }
 
     function getRepo() {
-        return callApi('/users/twoss-io/repos?sort="updated"', 'GET', {})
+        return callApi('/orgs/twoss-io/repos', 'GET', {})
     }
 
     function getTotalCom() {
@@ -156,14 +154,17 @@ var ProjectCards = (function () {
         //     })
         // })
         return new Promise(function (resolve, reject) {
+            var headers = {
+                "Content-Type":"application/json; charset=utf-8",
+                "Accept":"application/vnd.github.VERSION.html"
+            }
+            if(sessionStorage.getItem('cryp')){
+                headers.Authorization = "Basic " + sessionStorage.getItem('cryp')
+            }
             $.ajax({
                 method: "GET",
                 url: 'https://api.github.com/repos/twoss-io/'+repo+'/readme',
-                headers: {
-                    "Content-Type":"application/json; charset=utf-8",
-                    "Accept":"application/vnd.github.VERSION.html",
-                    "Authorization": "Basic " + sessionStorage.getItem('cryp')
-                },
+                headers: headers,
                 success: function (res) {
                     resolve(res)
                 },

@@ -13,7 +13,7 @@
 
 body { 
     /* font-family: Microsoft JhengHei, sans-serif; */
-	font-family: Microsoft JhengHei !important;
+	/* font-family: Microsoft JhengHei !important; */
     -webkit-font-smoothing: antialiased;
     -webkit-text-size-adjust: 100%;	
     cursor:default;
@@ -24,7 +24,6 @@ body {
     font-weight: 400;
 }
 
-/*
 /*-----------------------------------------------------------------------------------*/
 /*	RESET
 /*-----------------------------------------------------------------------------------*/
