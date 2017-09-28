@@ -74,6 +74,7 @@ var IssuesList = (function () {
                     issuesAry.unshift(res)
                     drawPic(issuesAry)
                     $("#add_md").modal('hide')
+                    $("#noData").hide()
                 }, function (fail) {
                     $("#add_md").modal('hide')
                     $.notify('發送錯誤，請重新嘗試',{position:'top center'})

@@ -47,7 +47,7 @@ var ProjectCards = (function () {
                 });
                 $('#cloud').addClass('bounceIn')
             }
-        }, 300);
+        }, 0);
     }
 
     function generateCard(data) {
