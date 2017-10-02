@@ -6,30 +6,33 @@ var IssuesList = (function () {
     /*	private Widget variable	*/
 
     function _init(data) {
-        issuesAry.length = 0;
-        $('html, body').animate({
-            scrollTop: $('#section_header').offset().top - 100
-        }, 'slow')
-        setContent(data)
-        repo = data.name
-        getIssues(repo).then(function (res) {
-            $(".loading").remove();
-            if (res.length > 0) {
-                issuesAry = res
-                drawPic(issuesAry)
-            }else{
-                noData()
-            }
-        }, function (fail) {
-            console.log(fail)
-        });
 
         $(document).ready(function () {
+            issuesAry.length = 0;
+            
+            $('html, body').animate({
+                scrollTop: $('#section_header').offset().top - 100
+            }, 1000)
+            
+            repo = data.name
+            getIssues(repo).then(function (res) {
+                setContent(data)
+                $(".loading").remove();
+                if (res.length > 0) {
+                    issuesAry = res
+                    drawPic(issuesAry)
+                }else{
+                    noData()
+                }
+            }, function (fail) {
+                console.log(fail)
+            });
+
             $("#btn_back").on('click', function () {
                 $("#serviceProject").slideDown('slow')
                 $("#section_header .center-heading").text("所有專案")
-                $("#IssuesList").remove();
                 _destroy();
+                $("#IssuesList").remove();
             })
 
             $("#replyCom").on('click', function () {
@@ -105,12 +108,29 @@ var IssuesList = (function () {
     }
 
     function setContent(data){
+        console.log(data)
         var $card = $(".panelContent")
+
+        var img = $(".titleImg")
+        if(data.titleImg){
+            img.css('background-image', 'url(' + data.titleImg + '?raw=true)')
+        }else{
+            img.css('background-image', 'url(//placeimg.com/320/180/nature)')
+        }
+
         var des = data.description || data.name
         $card.find('.panel-title').text(des)
         var md = data.md || data.des
         // convertMd(md)
         $card.find('.panel-body').html(md)
+
+        var topics = data.topics;
+        var html = '';
+        for (var i = 0; i < topics.length; i++) {
+            html+= ('<span class="label label-success">'+topics[i]+'</span>&nbsp;');
+        }
+        $(".topicsInner").append(html)
+        
     }
 
     function generateCard(data) {

@@ -22,6 +22,20 @@
         font-size: 20px;
         font-weight: 600;
     }
+
+    #mdContent>.col-md-3>.panel{
+        box-shadow: 4px 4px 12px -2px rgba(20%, 20%, 40%, 0.5);
+    }
+
+    #mdContent>.col-md-3>.panel>.panel-body{
+        height:300px;
+    }
+
+    .titleImg{
+        background-size: cover;
+        background-position: center center;
+        height: 100%;
+    }
 </style>
 <div id="IssuesList" class="row">
     <div class="col-md-12 text-center">
@@ -35,17 +49,21 @@
             <li><a data-toggle="tab" href="#issuesContent">&nbsp;&nbsp;<i class="fa fa-list" aria-hidden="true"></i> 議題清單&nbsp;&nbsp;</a></li>
         </ul>
     </div>
+    
     <div class="tab-content">
         <div class="col-md-12 tab-pane active" id="mdContent">
-            <!-- <div class="col-md-3">
-                <div class="panel panel-warning animated fadeInUp" style="margin-top:5px;">
+            <div class="col-md-3">
+                <div class="panel panel-default" style="margin-top:5px;">
                     <div class="panel-body">
-                        <img src="//placeimg.com/320/180/nature">
+                        <div class="titleImg"></div>
+                    </div>
+                    <div class="panel-footer" style="min-height:50px">
+                        <div class="topicsInner" style="font-size:18px;"></div>
                     </div>
                 </div>
-            </div> -->
-            <div class="col-md-12">
-                <div class="panel panel-default panelContent animated fadeInUp" style="margin-top:5px;">
+            </div>
+            <div class="col-md-9">
+                <div class="panel panel-default panelContent" style="margin-top:5px;min-height:350px;">
                     <div class="panel-heading">
                         <h2 class="panel-title">Panel title</h2>
                     </div>

@@ -87,7 +87,7 @@ textarea {
     font-weight: 400;
 }
 a {
-    color: #000;
+    /* color: #000; */
     -webkit-transition: all 200ms ease-in;
     -o-transition: all 200ms ease-in;
     -moz-transition: all 200ms ease-in;

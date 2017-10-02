@@ -53,6 +53,7 @@ var ProjectCards = (function () {
     function generateCard(data) {
         var $card = $(".chain_template").clone().removeClass("chain_template").removeAttr("hidden")
         getTitleImg(data.name).then(function (res) {
+            data['titleImg'] = res.html_url
             $card.find(".inner").css('background-image', 'url(' + res.html_url + '?raw=true)')
             // $card.find(".inner").css('background-image', 'url("data:image/png;base64,'+res.content+'")')
         }, function (fail) {
@@ -72,13 +73,12 @@ var ProjectCards = (function () {
         }
 
         $card.appendTo("#mainRow")
-        var send = data
         getMd(data.name).then(function (res) {
-            send['md'] = res
-            bindEvt($card, send); 
+            data['md'] = res
+            bindEvt($card, data); 
         }, function (fail) {
-            send['md'] = '<h4><i class="fa fa-info-circle" aria-hidden="true"></i> 目前暫無內容</h4>'
-            bindEvt($card, send);
+            data['md'] = '<h4><i class="fa fa-info-circle" aria-hidden="true"></i> 目前暫無內容</h4>'
+            bindEvt($card, data);
         })
 
         $card.find(".box_issues").attr("data-count", data.open_issues_count)
@@ -114,7 +114,7 @@ var ProjectCards = (function () {
     function bindEvt($elm, data) {
         $elm.unbind().bind('click', function () {
             $("#section_header .center-heading").text(data.name)
-            $("#serviceProject").slideUp('slow')
+            $("#serviceProject").hide()
             loadIssuesWidget(data);
         })
     }
