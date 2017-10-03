@@ -31,11 +31,15 @@ var ProjectCards = (function () {
     function timeoutdraw(_data, idx, len) {
         setTimeout(function () {
             if (idx < len) {
-                if(_data[idx].name=='issues-testing' || _data[idx].name=='twoss-io-videocms-demo' || _data[idx].name=='Main'){
+                if(_data[idx].name=='issues-testing' || _data[idx].name=='twoss-io-videocms-demo' || _data[idx].name=='Main' || _data[idx].name=='demand'){
                     idx++
                     timeoutdraw(_data, idx, len)
                 }else{
                     generateCard(_data[idx])
+                    words.push({
+                        text: _data[idx].description || _data[idx].name,
+                        weight: _data[idx].open_issues_count
+                    })
                     idx++
                     timeoutdraw(_data, idx, len)
                 }
@@ -88,10 +92,6 @@ var ProjectCards = (function () {
         counter($card.find(".box_issues"))
 
         counter($card.find(".box_comments"))
-        words.push({
-            text: des,
-            weight: data.open_issues_count
-        })
     }
 
     function counter($elm) {
