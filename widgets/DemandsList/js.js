@@ -1,40 +1,20 @@
-var IssuesList = (function () {
+var DemandsList = (function () {
     /*	public Global variable or function */
     var pub = {};
     var repo = '';
     var issuesAry = []
     /*	private Widget variable	*/
 
-    function _init(data) {
-
-        $("#IssuesList").ready(function () {
-            $("#btn_back").unbind().bind('click', function (e) {
-                e.preventDefault();
-                $("#serviceProject").slideDown('slow')
-                $("#section_header .center-heading").text("所有專案")
-                _destroy();
-                $("#IssuesList").remove();
-            })
-
+    function _init() {
+        sessionStorage.setItem("now_widget", "DemandsList");
+        $("#section_header .center-heading").text('需求討論')
+        $("#DemandsList").ready(function () {
             issuesAry.length = 0;
-            
             $('html, body').animate({
                 scrollTop: $('#section_header').offset().top - 100
             }, 1000)
             
-            repo = data.name
-            getIssues(repo).then(function (res) {
-                setContent(data)
-                $(".loading").remove();
-                if (res.length > 0) {
-                    issuesAry = res
-                    drawPic(issuesAry)
-                }else{
-                    noData()
-                }
-            }, function (fail) {
-                console.log(fail)
-            });
+            repo = 'demand'
 
             $("#replyCom").on('click', function () {
                 var num = $("#replyCom").data().cur_num
@@ -94,6 +74,18 @@ var IssuesList = (function () {
                     $.notify('發送錯誤，請重新嘗試',{position:'top center'})
                 })
             });
+
+            getIssues(repo).then(function (res) {
+                $(".loading").remove();
+                if (res.length > 0) {
+                    issuesAry = res
+                    drawPic(issuesAry)
+                }else{
+                    noData()
+                }
+            }, function (fail) {
+                console.log(fail)
+            });
         })
     }
 
@@ -116,31 +108,6 @@ var IssuesList = (function () {
                 timeoutdraw(_data, idx, len)
             }
         }, 300);
-    }
-
-    function setContent(data){
-        var $card = $(".panelContent")
-
-        var img = $(".titleImg")
-        if(data.titleImg){
-            img.css('background-image', 'url(' + data.titleImg + '?raw=true)')
-        }else{
-            img.css('background-image', 'url(//placeimg.com/320/180/nature)')
-        }
-
-        var des = data.description || data.name
-        $card.find('.panel-title').text(des)
-        var md = data.md || data.des
-        // convertMd(md)
-        $card.find('.panel-body').html(md)
-
-        var topics = data.topics;
-        var html = '';
-        for (var i = 0; i < topics.length; i++) {
-            html+= ('<span class="label label-success">'+topics[i]+'</span>&nbsp;');
-        }
-        $(".topicsInner").append(html)
-        
     }
 
     function generateCard(data) {
@@ -243,7 +210,6 @@ var IssuesList = (function () {
         return callApi('/repos/twoss-io/' + repo + '/issues/' + number + '/comments', 'POST', data)
         
     }
-    
 
     function getIssues(repo) {
         return callApi('/repos/twoss-io/' + repo + '/issues', 'GET', {})
@@ -253,18 +219,8 @@ var IssuesList = (function () {
         return callApi('/repos/twoss-io/' + repo + '/issues', 'POST', data)
     }
 
-    function convertMd(md){
-        callApi('/markdown', 'POST', {
-            "text": md,
-            "mode": "gfm",
-            "context": "github/gollum"
-        }).then(function(res){
-            console.log(JSON.stringify(res))
-        })
-    }
-
     function _destroy() {
-        delete IssuesList;
+        delete DemandsList;
     }
 
     pub._init = _init;

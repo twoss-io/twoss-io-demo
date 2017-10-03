@@ -56,10 +56,53 @@ $(document).ready(function () {
             $("#log_info").html('');
             $("#log_info").append("<i class='fa fa-exclamation-circle'></i> 取得用戶資訊失敗，請重新操作")
         });
+    });
+
+    $("#demand").unbind().bind('click', function(){
+        deleteWidget()
+        loadDemandsWidget()
+    })
+
+    $("#working").unbind().bind('click', function(){
+        deleteWidget()
+        loadWorkingWidget()
     })
 });
 
+function loadWorkingWidget(data){
+    $(".mainWidget").each(function() {
+        $(this).html('')
+    });
+    $("#serviceProject").load("./widgets/ProjectCards/main.html")
+    $.getScript("./widgets/ProjectCards/js.js", function (wfn) {
+        try {
+            eval("ProjectCards")._init();
+        } catch (e) {
+            console.log(e);
+        }
+        loadFlag = false
+    })
+}
 
+function loadDemandsWidget(data) {
+    $(".mainWidget").each(function() {
+        $(this).html('')
+    });
+    $("#demandsList").load("./widgets/DemandsList/main.html")
+    $.getScript("./widgets/DemandsList/js.js", function (wfn) {
+        try {
+            eval("DemandsList")._init(data);
+        } catch (e) {
+            console.log(e);
+        }
+        // loadFlag = false
+    })
+}
+
+function deleteWidget(){
+    var ng = sessionStorage.getItem('now_widget')
+    eval(ng)._destroy();    
+}
 
 var getUsr = function (cryp) {
     return callApi('/user', 'GET', {}, cryp)

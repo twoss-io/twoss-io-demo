@@ -19,7 +19,7 @@
         display: none;
     }
     .nav.nav-tabs{
-        font-size: 20px;
+        font-size: 18px;
         font-weight: 600;
     }
 
@@ -39,8 +39,8 @@
 </style>
 <div id="IssuesList" class="row">
     <div class="col-md-12 text-center">
-        <button id="btn_back" class="btn btn-dark" style="font-size:18px;margin-bottom:10px;width: 150px;"><i class="fa fa-arrow-circle-o-left"></i> | 回前頁</button>
-        <button id="addIssues" class="btn btn-primary" style="font-size:18px;margin-bottom:10px;width: 150px;"><i class="fa fa-plus"></i> | 新增議題</button>
+        <button type="button" id="btn_back" class="btn" style="font-size:18px;margin-bottom:10px;width: 150px;"><i class="fa fa-arrow-circle-o-left"></i> | 回前頁</button>
+        <button type="button" id="addIssues" class="btn btn-primary" style="font-size:18px;margin-bottom:10px;width: 150px;"><i class="fa fa-plus"></i> | 新增議題</button>
     </div>
 
     <div class="col-md-12" style="margin-bottom:10px;">
@@ -92,20 +92,22 @@
                 <div class="panel-group" id="issues_accordion" role="tablist" aria-multiselectable="true">
                     <div class="panel panel-default panel_div panel_template wow animated fadeInUp" hidden>
                         <div class="panel-heading" role="tab" id="headingOne">
-                            <h4 class="panel-title row">
-                                <span class="col-md-12">
-                                <a data-toggle="collapse" data-parent="#issues_accordion" href="#collapseOne" aria-expanded="false" aria-controls="" style="font-weight:600;">
-                                </a> 
-                                <span class="pull-right"><span>#<span class="isu_num"></span>                                由
-                                <u><a class="isu_user" href="#" target="_blank"></a></u> 發起</span>
-                                </span>
-                                </span>
+                            <div class="panel-title row">
+                                <div class="col-md-6">
+                                <a class="isu_title" data-toggle="collapse" data-parent="#issues_accordion" href="#collapseOne" aria-expanded="false" aria-controls="" style="font-weight:600;">
+                                </a>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="pull-right"><span>#<span class="isu_num"></span> 由
+                                    <u><a class="isu_user" href="#" target="_blank"></a></u> 發起</span>
+                                    </div>
+                                </div> 
                                 <div class="col-md-12" style="margin-top:10px;">
                                     <span><b> 回應數</b></span> |&nbsp;
                                     <span class="label label-primary box_comments" data-count="0">0</span>
                                     <span class="pull-right"><i class="fa fa-clock-o text-primary"></i>&nbsp;<span class="updt_at"></span></span>
                                 </div>
-                            </h4>
+                            </div>
                         </div>
                         <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
                             <div class="panel-body">

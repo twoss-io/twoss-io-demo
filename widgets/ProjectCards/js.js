@@ -6,7 +6,10 @@ var ProjectCards = (function () {
 
 
     function _init() {
-        $(document).ready(function(){
+        sessionStorage.setItem("now_widget", "ProjectCards");
+        $("#serviceProject").show()
+        $("#section_header .center-heading").text('所有專案')
+        $("#ProjectCards").ready(function(){
             var gr = getRepo();
             gr.then(function (res) {
                 $(".loading").remove();
@@ -112,7 +115,8 @@ var ProjectCards = (function () {
     }
 
     function bindEvt($elm, data) {
-        $elm.unbind().bind('click', function () {
+        $elm.unbind().bind('click', function (e) {
+            e.preventDefault();
             $("#section_header .center-heading").text(data.name)
             $("#serviceProject").hide()
             loadIssuesWidget(data);
@@ -120,7 +124,7 @@ var ProjectCards = (function () {
     }
 
     function loadIssuesWidget(data) {
-        $("#issuesList").html();
+        $("#issuesList").html('');
         $("#issuesList").load("./widgets/IssuesList/main.html")
         $.getScript("./widgets/IssuesList/js.js", function (wfn) {
             try {

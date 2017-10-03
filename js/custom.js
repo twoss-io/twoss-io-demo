@@ -96,7 +96,7 @@ Smooth Scroll To Anchor
 
 //jQuery for page scrolling feature - requires jQuery Easing plugin
 $(function () {
-    $('.navbar a:not("#projects, #goIndex, #loginBtn, #logoutBtn")').bind('click', function (event) {
+    $('.navbar a:not("#projects, #goIndex, #working, #demand, #groups, #loginBtn, #logoutBtn")').bind('click', function (event) {
         var $anchor = $(this);
         $('html, body').stop().animate({
             scrollTop: $($anchor.attr('href')).offset().top - 50

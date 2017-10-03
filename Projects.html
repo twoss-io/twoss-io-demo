@@ -65,7 +65,10 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="index.html" id="goIndex" style="font-size:25px;"><i class="fa fa-home" aria-hidden="true"></i> 首頁</a></li>
+                    <li><a href="index.html" id="goIndex" style="font-size:25px;"><i class="fa fa-home"></i> 首頁</a></li>
+                    <li><a href="#" id="working" style="font-size:25px;"><i class="fa fa-users"></i> 討論群組</a></li>
+                    <li><a href="#" id="demand" style="font-size:25px;"><i class="fa fa-question-circle"></i> 需求討論</a></li>
+                    <!-- <li><a href="#" id="groups" style="font-size:25px;"><i class="fa fa-compass"></i> 團隊招募</a></li> -->
                     <li>
                         <a href="#" type="button" style="font-size:25px;margin-top:2px" id="loginBtn"><i class="fa fa-github"></i> 登入</a>
                         <a href="#" type="button" style="font-size:25px;margin-top:2px;display:none" id="logoutBtn"><i class="fa fa-github"></i> <span class="u_name"></span> | 登出</a>
@@ -84,7 +87,7 @@
         </div>
     </div>
     <section id="services" style="padding-top:70px;min-height:700px;">
-        <div style="margin-left:30px;margin-right:30px;">
+        <div class="container">
             <div class="row" id="section_header">
                 <div class="col-md-12">
                     <div class="center-header">
@@ -94,11 +97,14 @@
                 </div>
             </div>
             <!--center heading row-->
-            <div id="serviceProject">
+            <div id="serviceProject" class="mainWidget">
 
             </div>
-            <div id="issuesList">
+            <div id="issuesList" class="mainWidget">
 
+            </div>
+            <div id="demandsList" class="mainWidget">
+            
             </div>
         </div>
     </section>

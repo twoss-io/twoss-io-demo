@@ -94,7 +94,8 @@ a {
     font-family: Microsoft JhengHei, sans-serif;
 }
 a:hover,
-a:focus {
+a:focus,
+a:visited {
     color: #f99200;
     text-decoration: none;
 }
@@ -273,8 +274,10 @@ p {
     font-weight: 400;
     font-size: 15px;
 }
-.navbar-default .navbar-nav>li>a:hover {
-    color: #f99200;
+.navbar-default .navbar-nav>li>a:hover,
+.navbar-default .navbar-nav>li>a:active,
+.navbar-default .navbar-nav>li>a:visited {
+    color: #f99200 !important;
 
 }
 /*transparent header*/
