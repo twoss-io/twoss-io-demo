@@ -67,6 +67,11 @@ $(document).ready(function () {
         deleteWidget()
         loadWorkingWidget()
     })
+
+    $("#groups").unbind().bind('click', function(){
+        deleteWidget()
+        loadGroupsWidget()
+    })
 });
 
 function loadWorkingWidget(data){
@@ -92,6 +97,21 @@ function loadDemandsWidget(data) {
     $.getScript("./widgets/DemandsList/js.js", function (wfn) {
         try {
             eval("DemandsList")._init(data);
+        } catch (e) {
+            console.log(e);
+        }
+        // loadFlag = false
+    })
+}
+
+function loadGroupsWidget(data) {
+    $(".mainWidget").each(function() {
+        $(this).html('')
+    });
+    $("#recruitment").load("./widgets/recruitment/main.html")
+    $.getScript("./widgets/recruitment/js.js", function (wfn) {
+        try {
+            eval("Recruitment")._init(data);
         } catch (e) {
             console.log(e);
         }

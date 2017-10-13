@@ -10,40 +10,13 @@ var DemandsList = (function () {
         $("#section_header .center-heading").text('需求討論')
         $("#DemandsList").ready(function () {
             issuesAry.length = 0;
-            $('html, body').animate({
-                scrollTop: $('#section_header').offset().top - 100
-            }, 1000)
-            
             repo = 'demand'
 
-            $("#replyCom").on('click', function () {
-                var num = $("#replyCom").data().cur_num
-    
-                var data = {
-                    "body": $("#com_content").val()
-                }
-
-                if(data.body==''){
-                    $.notify('請正確填寫內容',{position:'top center'})
-                    return false
-                }
-    
-                postComments(num, data).then(function (res) {
-                    $("#com_md").modal('hide')
-                    var tg = $("#replyCom").data().cardDiv
-                    generateCom(res, tg.find('.commentsList'))
-                    tg.find('.nocommentreply').remove()
-                }, function (fail) {
-                    $("#com_md").modal('hide')
-                    $.notify('發送錯誤，請重新嘗試',{position:'top center'})
-                })
-            })
-
-            $("#addIssues").on('click', function () {
+            $("#addIssues").on('click', this, function () {
                 var isLogin = sessionStorage.getItem('isLogin')
-                if(isLogin && isLogin!=""){
+                if (isLogin && isLogin != "") {
                     $("#add_md").modal('show')
-                }else{
+                } else {
                     $("#login_md").modal('show')
                     $("#login_md").find(".text-danger").remove();
                     $("#login_md").find(".modal-title").append(' <span class="text-danger">* 請登入以獲得完整功能</span>')
@@ -51,16 +24,18 @@ var DemandsList = (function () {
                 }
             })
 
-            $("#addIssue").on('click', function (){
+            $("#addIssue").click(function () {
                 var title = $("#Issue_title").val()
                 var body = $("#Issue_content").val()
                 var data = {
-                    title : $("#Issue_title").val(),
-                    body : $("#Issue_content").val()
+                    title: $("#Issue_title").val(),
+                    body: $("#Issue_content").val()
                 }
 
-                if(data.title==''||data.body==''){
-                    $.notify('請正確填入標題與內容',{position:'top center'})
+                if (data.title == '' || data.body == '') {
+                    $.notify('請正確填入標題與內容', {
+                        position: 'top center'
+                    })
                     return false;
                 }
 
@@ -71,16 +46,50 @@ var DemandsList = (function () {
                     $("#noData").hide()
                 }, function (fail) {
                     $("#add_md").modal('hide')
-                    $.notify('發送錯誤，請重新嘗試',{position:'top center'})
+                    $.notify('發送錯誤，請重新嘗試', {
+                        position: 'top center'
+                    })
                 })
             });
+
+            $('html, body').animate({
+                scrollTop: $('#section_header').offset().top - 100
+            }, 1000)
+
+
+            $("#replyCom").on('click', function () {
+                var num = $("#replyCom").data().cur_num
+
+                var data = {
+                    "body": $("#com_content").val()
+                }
+
+                if (data.body == '') {
+                    $.notify('請正確填寫內容', {
+                        position: 'top center'
+                    })
+                    return false
+                }
+
+                postComments(num, data).then(function (res) {
+                    $("#com_md").modal('hide')
+                    var tg = $("#replyCom").data().cardDiv
+                    generateCom(res, tg.find('.commentsList'))
+                    tg.find('.nocommentreply').remove()
+                }, function (fail) {
+                    $("#com_md").modal('hide')
+                    $.notify('發送錯誤，請重新嘗試', {
+                        position: 'top center'
+                    })
+                })
+            })
 
             getIssues(repo).then(function (res) {
                 $(".loading").remove();
                 if (res.length > 0) {
                     issuesAry = res
                     drawPic(issuesAry)
-                }else{
+                } else {
                     noData()
                 }
             }, function (fail) {
@@ -89,7 +98,7 @@ var DemandsList = (function () {
         })
     }
 
-    function noData(){
+    function noData() {
         $("#noData").show()
     }
 
@@ -141,11 +150,11 @@ var DemandsList = (function () {
 
         $card.find(".reBtn").unbind().bind('click', function () {
             var isLogin = sessionStorage.getItem('isLogin')
-            if(isLogin && isLogin!=""){
+            if (isLogin && isLogin != "") {
                 $("#com_md").modal('show')
                 $("#replyCom").data('cur_num', $card.data('isuData').number)
                 $("#replyCom").data('cardDiv', $card)
-            }else{
+            } else {
                 $("#login_md").modal('show')
                 $("#login_md").find(".text-danger").remove();
                 $("#login_md").find(".modal-title").append(' <span class="text-danger">* 請登入以獲得完整功能</span>')
@@ -155,7 +164,7 @@ var DemandsList = (function () {
     }
 
     function setCommentEvt($elm, id) {
-        $elm.find('#collapse_'+id).on('shown.bs.collapse', function () {
+        $elm.find('#collapse_' + id).on('shown.bs.collapse', function () {
             var isu_num = $elm.data('isuData').number
             var isClick = $elm.data('isClick') || false
             if (!isClick)
@@ -163,10 +172,10 @@ var DemandsList = (function () {
                     $elm.data('isClick', true)
                     $elm.find(".com_loading").remove();
                     if (res.length > 0) {
-                        for (var i = res.length-1; i > -1; i--) {
+                        for (var i = res.length - 1; i > -1; i--) {
                             generateCom(res[i], $elm.find('.commentsList'))
                         }
-                    }else{
+                    } else {
                         $elm.find('.commentsList').after('<div class="text-center nocommentreply"><h4><i class="fa fa-info-circle" aria-hidden="true"></i> 目前暫無回應</h4></div>')
                     }
                 }, function (fail) {
@@ -208,7 +217,7 @@ var DemandsList = (function () {
 
     function postComments(number, data) {
         return callApi('/repos/twoss-io/' + repo + '/issues/' + number + '/comments', 'POST', data)
-        
+
     }
 
     function getIssues(repo) {

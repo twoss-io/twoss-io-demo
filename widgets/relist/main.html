@@ -1,0 +1,242 @@
+<!-- CSS -->
+<style>
+    .panel_div {
+        border-left: solid #f99200 3px;
+        margin-bottom: 10px !important;
+        box-shadow: 4px 4px 12px -2px rgba(20%, 20%, 40%, 0.5);
+    }
+
+    .com_div {
+        margin-bottom: 20px !important;
+    }
+
+    .panelContent,
+    #noData {
+        box-shadow: 4px 4px 12px -2px rgba(20%, 20%, 40%, 0.5);
+    }
+
+    svg.octicon.octicon-link {
+        display: none;
+    }
+
+    .nav.nav-tabs {
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    #mdContent>.col-md-3>.panel {
+        box-shadow: 4px 4px 12px -2px rgba(20%, 20%, 40%, 0.5);
+    }
+
+    #mdContent>.col-md-3>.panel>.panel-body {
+        height: 300px;
+    }
+
+    .titleImg {
+        background-size: cover;
+        background-position: center center;
+        height: 100%;
+    }
+
+    .loading i {
+        font-size: 48px;
+        color: #f99200;
+    }
+</style>
+<div id="Relist" class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8 text-center">
+        <button type="button" id="btn_back" class="btn" style="font-size:18px;margin-bottom:10px;width: 150px;">
+            <i class="fa fa-arrow-circle-o-left"></i> | 回前頁</button>
+        <button type="button" id="applygroup" class="btn btn-warning" style="font-size:18px;margin-bottom:10px;width: 150px;">
+            <i class="fa fa-plus"></i> | 申請加入
+        </button>
+    </div>
+    <div class="col-md-2 text-center" style="font-size:18px;margin-bottom:10px;">
+        <span class="label label-info" id="applycount" data-count="0">0</span>
+        <span>
+            <b> 人提出申請</b>
+        </span>
+    </div>
+    <div class="col-md-12" id="issuesContent">
+        <div id="issuesRow">
+            <div class="panel-group" id="issues_accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default panel_div panel_template wow animated fadeInUp">
+                    <div class="panel-heading" role="tab" id="headingOne">
+                        <div class="panel-title row">
+                            <div class="col-md-6">
+                                <a class="isu_title" data-toggle="collapse" data-parent="#issues_accordion" href="#collapseOne" aria-expanded="true" aria-controls=""
+                                    style="font-weight:600;">
+                                </a>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="pull-right">
+                                    <span>#
+                                        <span class="isu_num"></span> 由
+                                        <u>
+                                            <a class="isu_user" href="#" target="_blank"></a>
+                                        </u> 發起</span>
+                                </div>
+                            </div>
+                            <div class="col-md-12" style="margin-top:10px;">
+                                <span>
+                                    <b> 回應數</b>
+                                </span> |&nbsp;
+                                <span class="label label-primary box_comments" data-count="0">0</span>
+                                <span class="pull-right">
+                                    <i class="fa fa-clock-o text-primary"></i>&nbsp;
+                                    <span class="updt_at"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse show" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="panel-body">
+                            <div class="issues_body">
+
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-2">
+
+                                </div>
+                                <div class="col-md-8"></div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-success btn-block reBtn">
+                                        <i class="fa fa-reply"></i> 新增回應</button>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="com collapse show" id="comments">
+                                        <div class="commentsList" style="margin:20px;">
+                                            <div class="com_loading text-center col-md-12">
+                                                <h2>
+                                                    <i class="fa fa-compass fa-spin" style="color:#f99200 !important;"></i>
+                                                </h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-10"></div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-success btn-block reBtn">
+                                        <i class="fa fa-reply"></i> 新增回應</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-success com_div com_template wow animated fadeInDown" hidden>
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <a target="_blank">Panel title</a>
+        </h3>
+    </div>
+    <div class="panel-body">
+        Panel content
+    </div>
+    <div class="panel-footer text-right">
+        Panel content
+    </div>
+</div>
+
+<div class="modal fade" role="dialog" id="com_md">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">回覆</h4>
+            </div>
+            <div class="modal-body row">
+                <div class="col-md-2"></div>
+                <form class="col-md-8">
+                    <div class="form-group">
+                        <label for="com_content">內容</label>
+                        <textarea class="form-control" rows="8" id="com_content" placeholder=""></textarea>
+                    </div>
+                </form>
+                <div class="col-md-2"></div>
+                <div class="col-md-12 text-center text-danger" id="com_info">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="replyComDis">取消</button>
+                <button type="button" class="btn btn-primary" id="replyCom">回覆</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" role="dialog" id="add_md">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">新增議題</h4>
+            </div>
+            <div class="modal-body row">
+                <div class="col-md-2"></div>
+                <form class="col-md-8">
+                    <div class="form-group">
+                        <label for="Issue_title">標題</label>
+                        <input class="form-control" id="Issue_title" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="Issue_content">內容</label>
+                        <textarea class="form-control" rows="8" id="Issue_content" placeholder=""></textarea>
+                    </div>
+                </form>
+                <div class="col-md-2"></div>
+                <div class="col-md-12 text-center text-danger" id="Issue_info">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="disIssue">取消</button>
+                <button type="button" class="btn btn-primary" id="addIssue">新增</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" role="dialog" id="app_md">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">申請加入</h4>
+            </div>
+            <div class="modal-body row">
+                <div class="col-md-2"></div>
+                <form class="col-md-8">
+                    <div class="form-group">
+                        <label for="apply_content"></label>
+                        <textarea class="form-control" rows="8" id="apply_content" placeholder=""></textarea>
+                    </div>
+                </form>
+                <div class="col-md-2"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="disIssue">取消</button>
+                <button type="button" class="btn btn-primary" id="addApply">新增</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

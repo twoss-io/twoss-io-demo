@@ -31,7 +31,7 @@ var ProjectCards = (function () {
     function timeoutdraw(_data, idx, len) {
         setTimeout(function () {
             if (idx < len) {
-                if(_data[idx].name=='issues-testing' || _data[idx].name=='twoss-io-videocms-demo' || _data[idx].name=='Main' || _data[idx].name=='demand'){
+                if(_data[idx].name=='issues-testing' || _data[idx].name=='twoss-io-videocms-demo' || _data[idx].name=='Main' || _data[idx].name=='demand' || _data[idx].name=='recruitment'){
                     idx++
                     timeoutdraw(_data, idx, len)
                 }else{

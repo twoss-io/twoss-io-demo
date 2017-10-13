@@ -1,0 +1,193 @@
+<!-- CSS -->
+<style>
+    .loading i {
+        font-size: 48px;
+        color: #f99200;
+    }
+
+    .service-box {
+        background: #fff;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        box-shadow: 4px 4px 12px -2px rgba(20%, 20%, 40%, 0.5);
+        /* height: 300px; */
+    }
+    /* .service-box>span {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: #f99200;
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+        filter: alpha(opacity=0);
+        opacity: 0;
+        -webkit-transition: opacity 250ms linear;
+        transition: opacity 250ms linear;
+        z-index: 999;
+    } */
+    /* .service-box:hover>span {
+        cursor: pointer;
+        opacity: 0.6;
+    }
+
+    .service-box>span>i {
+        position: absolute;
+        top: 45%;
+        left: 45%;
+    } */
+
+    .chain_div {
+        padding: 0;
+        margin-bottom: 20px;
+    }
+
+    .box_title {
+        color: #555;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+    .box_des {
+        height: 200px;
+        padding: 15px;
+        overflow: auto;
+    }
+
+    .box_end {
+        height: 75px;
+    }
+
+    .box_footer {
+        bottom: 0px;
+        position: absolute;
+        width: 100%;
+        /* height: 100px; */
+        background: #eee;
+        border: solid 1px #eee;
+        padding: 10px;
+    }
+
+    .bdl {
+        border-left: solid #f99200
+    }
+
+    .bdt {
+        border-top: solid #f99200
+    }
+
+    .cmr {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .hr_w {
+        border-top: 1px solid #aaa;
+        margin: 10px;
+    }
+</style>
+<!-- HTML -->
+<div id="Recruitment">
+    <!-- <div class="col-md-12 text-center"> -->
+        <!-- <button type="button" id="btn_back" class="btn" style="font-size:18px;margin-bottom:10px;width: 150px;"><i class="fa fa-arrow-circle-o-left"></i> | 回前頁</button> -->
+        <!-- <button type="button" id="addIssues" class="btn btn-primary" style="font-size:18px;margin-bottom:10px;width: 150px;"> -->
+            <!-- <i class="fa fa-plus"></i> | 發起招募</button> -->
+    <!-- </div> -->
+    <div class="col-md-12" id="issuesContent">
+        <div class="loading text-center">
+            <i class="fa fa-compass fa-spin"></i>
+        </div>
+        <div class="panel panel-default animated fadeInUp" id="noData" hidden style="margin-top:5px;">
+            <div class="panel-heading">
+                <h3 class="panel-title">&nbsp;</h3>
+            </div>
+            <div class="panel-body text-center">
+                <h4>
+                    <i class="fa fa-info-circle" aria-hidden="true"></i> 目前暫無招募訊息</h4>
+            </div>
+        </div>
+        <div class="row" id="mainRow">
+            <div class="col-md-4 chain_div chain_template" hidden>
+                <div class="service-box wow animated fadeInDown cmr row bdt">
+                    <!-- <span><i class="fa fa-arrow-circle-o-right fa-4x"></i></span> -->
+                    <div class="col-lg-12 text-right">
+                        <div class="">
+                            <span>最近更新於</span>&nbsp;
+                            <i class="fa fa-clock-o text-primary"></i>&nbsp;
+                            <span class="box_date">2017-08-04</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <hr class="hr_w">
+                    </div>
+                    <!-- <div class="col-lg-4 text-center">
+                    <div class='circle'>
+                        <div class='inner'>
+
+                        </div>
+                    </div>
+                </div> -->
+                    <div class="col-lg-12">
+                        <div class="text-center">
+                            <a href="#">
+                                <!-- <u> -->
+                                <u><h4 class="box_title">DB-PostgreSQL-stable</h4></u>
+                                <!-- </u> -->
+                            </a>
+                            <!-- <span class="full_name">twoss-io/DB-PostgreSQL-stable</span> -->
+                        </div>
+                    </div>
+                    <div class="col-lg-12 box_ft">
+                        <div class="box_des">Here goes some description</div>
+                    </div>
+                    <div class="col-lg-12 box_footer">
+                        <!-- <div class="topics" style="width:100%;height:30px;font-size:18px;">
+
+                    </div>
+                    <hr class="hr_w"> -->
+                        <div style="width:100%">
+                            
+                            <span class="pull-right"><button type="button" class="btn btn-primary check_info">查看討論</button></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" role="dialog" id="add_md">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">發起招募</h4>
+            </div>
+            <div class="modal-body row">
+                <div class="col-md-2"></div>
+                <form class="col-md-8">
+                    <div class="form-group">
+                        <label for="Issue_title">主題</label>
+                        <input class="form-control" id="Issue_title" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="Issue_content">內容</label>
+                        <textarea class="form-control" rows="8" id="Issue_content" placeholder=""></textarea>
+                    </div>
+                </form>
+                <div class="col-md-2"></div>
+                <div class="col-md-12 text-center text-danger" id="Issue_info">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="disIssue">取消</button>
+                <button type="button" class="btn btn-primary" id="addIssue">新增</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
